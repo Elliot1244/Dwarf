@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class AcolyteScript : MonoBehaviour
 {
-    [SerializeField] GameObject _player;
-
     // Start is called before the first frame update
-    private void OnTriggerEnter(Collider other)
+    void Start()
     {
-        if(other.gameObject.GetComponent<PlayerMouvement>() != null)
-        {
-            Debug.Log("Test ok");
-        }
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 }

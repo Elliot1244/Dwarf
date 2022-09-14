@@ -12,7 +12,7 @@ public class PlayerMouvement : MonoBehaviour
     [SerializeField] int _isWalkingAnim;
     [SerializeField] float _speed;
     [SerializeField] float _gravity;
-    [SerializeField] Transform _root;
+    //[SerializeField] Transform _root;
     private float _vSpeed = 0;
 
     Vector3 _currentMovement;
@@ -92,8 +92,8 @@ public class PlayerMouvement : MonoBehaviour
         realDirection = _camera.transform.TransformDirection(realDirection);
 
         // Rotation
-        _root.LookAt(transform.position + realDirection);
-        _root.rotation = Quaternion.Euler(0, _root.rotation.eulerAngles.y, 0);
+        transform.LookAt(transform.position + realDirection);
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
 
 
         // Gravity
