@@ -4,18 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class CollisionPNJDesert : MonoBehaviour
+public class DisplayVillageName : MonoBehaviour
 {
     [SerializeField] Canvas _canva;
     [SerializeField] TextMeshProUGUI _dialText;
-    // Start is called before the first frame update
-    private void OnControllerColliderHit(ControllerColliderHit hit)
+    [SerializeField] GameObject _trigger;
+
+    private void OnTriggerEnter(Collider other)
     {
-        if(hit.gameObject.GetComponent<FirstDesertLadyScript>() != null)
+        if (other.gameObject.GetComponent<PlayerMouvement>() != null)
         {
             _canva.gameObject.SetActive(true);
-           _dialText.text = "Ah, tu es réveillé ! Tu as eu de la veine d'être arrivé indemne...Ton coéquipier n'a pas eu cette chance. Il est entrain de se faire soigner à côté.";
+            _dialText.text = "Village d'Ushar";
             StartCoroutine(DisableDialogText());
+            
         }
     }
 
@@ -23,6 +25,8 @@ public class CollisionPNJDesert : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         _canva.gameObject.SetActive(false);
+        Destroy(_trigger);
         yield break;
     }
 }
+
