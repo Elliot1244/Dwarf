@@ -4,18 +4,32 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class FirstDesertLadyScript : MonoBehaviour
+public class HeldaScript : MonoBehaviour, ISpeakable
 {
-    [SerializeField] Canvas _canva;
-    [SerializeField] TextMeshProUGUI _dialText;
+    /*    [SerializeField] Canvas _canva;
+        [SerializeField] TextMeshProUGUI _dialText;*/
 
     bool _spoken;
 
-    private void Awake()
+    public string GetName()
     {
-        _spoken = false;
+        return "Helda";
     }
-    private void OnTriggerEnter(Collider other)
+
+    public string Speak()
+    {
+        if (!_spoken)
+        {
+            _spoken = true;
+            return "Ah, tu es réveillé Gromnir ! Malheureusement l'état de Dulmyr ne s'améliore pas... Il est entrain de se faire soigner à côté.";
+        }
+        else
+        {
+            return "Gromnir est avec le guérisseur du village dans la tente médicale à côté.";
+        }
+    }
+
+    /*private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<PlayerMouvement>() != null && _spoken == false)
         {
@@ -37,5 +51,5 @@ public class FirstDesertLadyScript : MonoBehaviour
         yield return new WaitForSeconds(3);
         _canva.gameObject.SetActive(false);
         yield break;
-    }
+    }*/
 }

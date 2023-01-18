@@ -4,43 +4,48 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class DoctorScript : MonoBehaviour, ISpeakable
+public class MarchantScript : MonoBehaviour, ISpeakable
 {
+    
     /*    [SerializeField] Canvas _canva;
-       [SerializeField] TextMeshProUGUI _dialText;*/
+        [SerializeField] TextMeshProUGUI _dialText;*/
 
-    bool _spoken = false;
+    bool _spoken;
 
     public string GetName()
     {
-        return "Doctor";
+        return "Marchande";
     }
 
     public string Speak()
     {
-        if (_spoken)
+        
+        if (!_spoken)
         {
+            
             _spoken = true;
-            return "Bonjour ! Votre ami est dans un sale état, désolé mais j'ai besoin d'espace pour bien le soigner. J'ai entendu dire que le chef vous demande.";
+            return "Test marchande";
+
         }
         else
         {
-            return "S'il vous plait, laissez moi m'occuper des blessures de votre compagnon.";
+            return "Test marchande 2";
         }
     }
+
     /*private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<PlayerMouvement>() != null && _spoken == false)
         {
             _canva.gameObject.SetActive(true);
-            _dialText.text = "Bonjour ! Votre ami est dans un sale état, désolé mais j'ai besoin d'espace pour bien le soigner. J'ai entendu dire que le chef vous demande.";
+            _dialText.text = "Ah, tu es réveillé Gromnir ! Malheureusement l'état de Dulmyr ne s'améliore pas... Il est entrain de se faire soigner à côté.";
             StartCoroutine(DisableDialogText());
             _spoken = true;
         }
         else
         {
             _canva.gameObject.SetActive(true);
-            _dialText.text = "S'il vous plait, laissez moi m'occuper des blessures de votre compagnon.";
+            _dialText.text = "Gromnir est avec le guérisseur du village dans la tente médicale à côté.";
             StartCoroutine(DisableDialogText());
         }
     }

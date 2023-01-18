@@ -100,9 +100,6 @@ public class PlayerMouvement : MonoBehaviour
         _vSpeed -= _gravity * Time.deltaTime;
         realDirection.y = _vSpeed;
 
-        // Final movement
-        //_controller.Move(realDirection * _speed * Time.deltaTime);
-
         if (_isRunning)
         {
             _controller.Move(realDirection * _speed * Time.deltaTime * 2);
@@ -114,5 +111,4 @@ public class PlayerMouvement : MonoBehaviour
             _isRunning = false;
         }
     }
-
 }

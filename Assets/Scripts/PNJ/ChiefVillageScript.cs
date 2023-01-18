@@ -4,18 +4,32 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ChiefVillageScript : MonoBehaviour
+public class ChiefVillageScript : MonoBehaviour, ISpeakable
 {
-    [SerializeField] Canvas _canva;
-    [SerializeField] TextMeshProUGUI _dialText;
+    /*[SerializeField] Canvas _canva;
+    [SerializeField] TextMeshProUGUI _dialText;*/
 
-    bool _spoken;
-
-    private void Awake()
+    bool _spoken = true;
+    public string GetName()
     {
-        _spoken = false;
+        return "Chef du village";
     }
-    private void OnTriggerEnter(Collider other)
+
+    public string Speak()
+    {
+        if (!_spoken)
+        {    
+            _spoken = true;
+            return "Vous voilà !Encore merci à toi et ton équipe, Gromnir !Sans ce ravitaillement, nous ne survivions pas longtemps dans le désert...Du moins pas depuis la grande tempête.";
+        }
+        else
+        {
+            return "Si tu souhaites repartir, je vais te donner une arme, je veux que tu puisses te défendre si tu croises à nouveau des bandits !";
+        }
+    }
+
+
+    /*private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<PlayerMouvement>() != null && _spoken == false)
         {
@@ -27,15 +41,15 @@ public class ChiefVillageScript : MonoBehaviour
         else
         {
             _canva.gameObject.SetActive(true);
-            _dialText.text = "Gromnir est avec le guérisseur du village dans la tente médicale à côté.";
+            _dialText.text = "Si tu souhaites repartir, je vais te donner une arme, je veux que tu puisses te défendre si tu croises à nouveau des bandits !";
             StartCoroutine(DisableDialogText());
         }
-    }
+    }*/
 
-    IEnumerator DisableDialogText()
+    /*IEnumerator DisableDialogText()
     {
         yield return new WaitForSeconds(3);
         _canva.gameObject.SetActive(false);
         yield break;
-    }
+    }*/
 }
