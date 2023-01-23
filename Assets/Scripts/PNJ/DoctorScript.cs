@@ -18,9 +18,9 @@ public class DoctorScript : MonoBehaviour, ISpeakable
 
     public string Speak()
     {
-        if (_spoken)
+        if (_spoken == false)
         {
-            _spoken = true;
+            StartCoroutine(DisableDialogText());
             return "Bonjour ! Votre ami est dans un sale état, désolé mais j'ai besoin d'espace pour bien le soigner. J'ai entendu dire que le chef vous demande.";
         }
         else
@@ -28,7 +28,7 @@ public class DoctorScript : MonoBehaviour, ISpeakable
             return "S'il vous plait, laissez moi m'occuper des blessures de votre compagnon.";
         }
     }
-    /*private void OnTriggerEnter(Collider other)
+   /* private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<PlayerMouvement>() != null && _spoken == false)
         {
@@ -43,12 +43,13 @@ public class DoctorScript : MonoBehaviour, ISpeakable
             _dialText.text = "S'il vous plait, laissez moi m'occuper des blessures de votre compagnon.";
             StartCoroutine(DisableDialogText());
         }
-    }
+    }*/
 
     IEnumerator DisableDialogText()
     {
         yield return new WaitForSeconds(3);
-        _canva.gameObject.SetActive(false);
+        //_canva.gameObject.SetActive(false);
+        _spoken = true;
         yield break;
-    }*/
+    }
 }

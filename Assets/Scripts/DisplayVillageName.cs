@@ -17,7 +17,7 @@ public class DisplayVillageName : MonoBehaviour
             _canva.gameObject.SetActive(true);
             _dialText.text = "Village d'Ushar";
             StartCoroutine(DisableDialogText());
-            
+            Debug.Log("Nom village affiché");
         }
     }
 

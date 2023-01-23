@@ -6,6 +6,7 @@ public class PlayerMouvement : MonoBehaviour
 {
     [SerializeField] InputActionReference _movement;
     [SerializeField] InputActionReference _sprint;
+    [SerializeField] InputActionReference _draw;
     [SerializeField] Animator _animator;
     [SerializeField] CharacterController _controller;
     [SerializeField] Camera _camera;
@@ -18,6 +19,7 @@ public class PlayerMouvement : MonoBehaviour
     Vector3 _currentMovement;
     bool _movementPressed; 
     bool _isRunning;
+    bool _hasDrawWeapon;
     private void Reset()
     {
         _animator = GetComponent<Animator>();
@@ -33,6 +35,26 @@ public class PlayerMouvement : MonoBehaviour
         _sprint.action.started += SprintStarted;
         _sprint.action.performed += SprintUpdate;
         _sprint.action.canceled += SprintCanceled;
+
+        //Attaque
+        _draw.action.performed += DrawStarted;
+    }
+
+
+    private void DrawStarted(InputAction.CallbackContext obj)
+    {
+        if(_hasDrawWeapon == false)
+        {
+            _animator.SetTrigger("drawWeapon");
+            Debug.Log("arme sortie !");
+            _hasDrawWeapon = true;
+        }
+        else
+        {
+            _animator.SetTrigger("sheathWeapon");
+            Debug.Log("arme rangée");
+            _hasDrawWeapon = false;
+        }
     }
 
     private void SprintCanceled(InputAction.CallbackContext obj)
@@ -54,12 +76,14 @@ public class PlayerMouvement : MonoBehaviour
     void Start()
     {
         _isWalkingAnim = Animator.StringToHash("isWalking");
+        _hasDrawWeapon = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         _animator.SetBool("isRunning", _isRunning);
+
         Movement();
     }
 

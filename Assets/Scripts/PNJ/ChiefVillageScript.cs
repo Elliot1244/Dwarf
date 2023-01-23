@@ -9,7 +9,7 @@ public class ChiefVillageScript : MonoBehaviour, ISpeakable
     /*[SerializeField] Canvas _canva;
     [SerializeField] TextMeshProUGUI _dialText;*/
 
-    bool _spoken = true;
+    bool _spoken = false;
     public string GetName()
     {
         return "Chef du village";
@@ -17,14 +17,14 @@ public class ChiefVillageScript : MonoBehaviour, ISpeakable
 
     public string Speak()
     {
-        if (!_spoken)
-        {    
-            _spoken = true;
-            return "Vous voilà !Encore merci à toi et ton équipe, Gromnir !Sans ce ravitaillement, nous ne survivions pas longtemps dans le désert...Du moins pas depuis la grande tempête.";
+        if (_spoken == false)
+        {
+            StartCoroutine(DisableDialogText());
+            return "Vous voilà !Encore merci à toi et ton équipe, Gromnir !Sans ce ravitaillement, nous ne survivions pas longtemps dans le désert...Pas depuis la grande tempête.";
         }
         else
         {
-            return "Si tu souhaites repartir, je vais te donner une arme, je veux que tu puisses te défendre si tu croises à nouveau des bandits !";
+            return "Si tu souhaites repartir, récupère d'abord ton arme, je veux que tu puisses te défendre si tu croises à nouveau des bandits !";
         }
     }
 
@@ -46,10 +46,11 @@ public class ChiefVillageScript : MonoBehaviour, ISpeakable
         }
     }*/
 
-    /*IEnumerator DisableDialogText()
+    IEnumerator DisableDialogText()
     {
         yield return new WaitForSeconds(3);
-        _canva.gameObject.SetActive(false);
+        //_canva.gameObject.SetActive(false);
+        _spoken = true;
         yield break;
-    }*/
+    }
 }

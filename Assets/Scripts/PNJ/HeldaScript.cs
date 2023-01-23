@@ -6,10 +6,25 @@ using TMPro;
 
 public class HeldaScript : MonoBehaviour, ISpeakable
 {
-    /*    [SerializeField] Canvas _canva;
-        [SerializeField] TextMeshProUGUI _dialText;*/
 
-    bool _spoken;
+    public static HeldaScript Instance { get; private set; }
+    /*[SerializeField] Canvas _canva;
+    [SerializeField] TextMeshProUGUI _dialText;*/
+
+   public bool _spoken = false;
+
+
+    private void Awake()
+    {
+        //Vérifie qu'il n'y ait qu'une instance sinon destruction
+        if (Instance != null)
+        {
+            Debug.LogError("More than one instance" + transform + " - " + Instance);
+            DestroyImmediate(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     public string GetName()
     {
@@ -18,9 +33,9 @@ public class HeldaScript : MonoBehaviour, ISpeakable
 
     public string Speak()
     {
-        if (!_spoken)
+        if (_spoken == false)
         {
-            _spoken = true;
+            StartCoroutine(DisableDialogText());
             return "Ah, tu es réveillé Gromnir ! Malheureusement l'état de Dulmyr ne s'améliore pas... Il est entrain de se faire soigner à côté.";
         }
         else
@@ -44,12 +59,13 @@ public class HeldaScript : MonoBehaviour, ISpeakable
             _dialText.text = "Gromnir est avec le guérisseur du village dans la tente médicale à côté.";
             StartCoroutine(DisableDialogText());
         }
-    }
+    }*/
 
     IEnumerator DisableDialogText()
     {
         yield return new WaitForSeconds(3);
-        _canva.gameObject.SetActive(false);
+        _spoken = true;
+        //_canva.gameObject.SetActive(false);
         yield break;
-    }*/
+    }
 }

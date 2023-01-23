@@ -36,25 +36,25 @@ public class PNJSpeakInteraction : MonoBehaviour
                 _canva.gameObject.SetActive(true);
                 speakablePNJ.GetName();
                 _dialText.text = speakablePNJ.Speak();
-                //StartCoroutine(DisableDialogText());
+                StartCoroutine(DisableDialogText());
             }
             else
             {
-                _canva.gameObject.SetActive(false);
+                //_canva.gameObject.SetActive(false);
                 _animator.SetBool(_animation, false);
             }
         }
         else
         {
-            _canva.gameObject.SetActive(false);
+            //_canva.gameObject.SetActive(false);
             _animator.SetBool(_animation, false);
         }
     }
 
-    /*IEnumerator DisableDialogText()
+    IEnumerator DisableDialogText()
     {
         yield return new WaitForSeconds(3);
         _canva.gameObject.SetActive(false);
         yield break;
-    }*/
+    }
 }

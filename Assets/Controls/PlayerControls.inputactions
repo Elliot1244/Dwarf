@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Draw-Sheath",
+                    "type": "Value",
+                    "id": "6b94272b-174d-4dfa-b547-7a7eb416b0e0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -154,6 +163,17 @@
                     "action": "Camera",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "6f5c1c52-073f-4f13-b0ee-d972811ef08b",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Draw-Sheath",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

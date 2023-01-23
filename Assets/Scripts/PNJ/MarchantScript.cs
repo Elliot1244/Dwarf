@@ -10,8 +10,6 @@ public class MarchantScript : MonoBehaviour, ISpeakable
     /*    [SerializeField] Canvas _canva;
         [SerializeField] TextMeshProUGUI _dialText;*/
 
-    bool _spoken;
-
     public string GetName()
     {
         return "Marchande";
@@ -19,19 +17,17 @@ public class MarchantScript : MonoBehaviour, ISpeakable
 
     public string Speak()
     {
-        
-        if (!_spoken)
+        if(HeldaScript.Instance._spoken == true )
         {
-            
-            _spoken = true;
-            return "Test marchande";
-
+            Debug.Log("Tu lui as parlé");
         }
         else
         {
-            return "Test marchande 2";
+            Debug.Log("Va lui parler");
         }
+        return "Désolé voyageur, les affaires sont aux plus mal et je n'ai rien à te vendre";
     }
+
 
     /*private void OnTriggerEnter(Collider other)
     {
