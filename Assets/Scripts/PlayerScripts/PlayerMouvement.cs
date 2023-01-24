@@ -20,6 +20,7 @@ public class PlayerMouvement : MonoBehaviour
     bool _movementPressed; 
     bool _isRunning;
     bool _hasDrawWeapon;
+    bool _isUsingWeapon;
     private void Reset()
     {
         _animator = GetComponent<Animator>();
@@ -48,13 +49,25 @@ public class PlayerMouvement : MonoBehaviour
             _animator.SetTrigger("drawWeapon");
             Debug.Log("arme sortie !");
             _hasDrawWeapon = true;
+            _isUsingWeapon = true;
+            StartCoroutine(NoWeapon());
         }
         else
         {
             _animator.SetTrigger("sheathWeapon");
             Debug.Log("arme rangée");
             _hasDrawWeapon = false;
+            _isUsingWeapon = true;
+            StartCoroutine(NoWeapon());
         }
+    }
+
+    IEnumerator NoWeapon()
+    {
+        yield return new WaitForSeconds(1.2f);
+        _isUsingWeapon = false;
+        //_canva.gameObject.SetActive(false);
+        yield break;
     }
 
     private void SprintCanceled(InputAction.CallbackContext obj)
@@ -77,14 +90,31 @@ public class PlayerMouvement : MonoBehaviour
     {
         _isWalkingAnim = Animator.StringToHash("isWalking");
         _hasDrawWeapon = false;
+        _isUsingWeapon = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("DrawWeapon") || _animator.GetCurrentAnimatorStateInfo(0).IsName("SheathWeapon"))
+        {
+            return;
+        }
+        else
+        {
+            Movement();
+        }
         _animator.SetBool("isRunning", _isRunning);
 
-        Movement();
+        /*if(_isUsingWeapon == true)
+        {
+            return;
+        }
+        else
+        {
+            Movement();
+        }*/
+        
     }
 
     private void StartMovement(InputAction.CallbackContext obj)
