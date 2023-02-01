@@ -6,10 +6,31 @@ using TMPro;
 
 public class ChiefVillageScript : MonoBehaviour, ISpeakable
 {
+
+    public static ChiefVillageScript Instance { get; private set; }
+
+
     /*[SerializeField] Canvas _canva;
     [SerializeField] TextMeshProUGUI _dialText;*/
+    
 
     bool _spoken = false;
+    public bool _getWeapon = false;
+
+
+    private void Awake()
+    {
+        //Vérifie qu'il n'y ait qu'une instance sinon destruction
+        if (Instance != null)
+        {
+            Debug.LogError("More than one instance" + transform + " - " + Instance);
+            DestroyImmediate(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
+
     public string GetName()
     {
         return "Chef du village";
@@ -51,6 +72,7 @@ public class ChiefVillageScript : MonoBehaviour, ISpeakable
         yield return new WaitForSeconds(3);
         //_canva.gameObject.SetActive(false);
         _spoken = true;
+        _getWeapon = true;
         yield break;
     }
 }

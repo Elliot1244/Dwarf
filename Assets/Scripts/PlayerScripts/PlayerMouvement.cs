@@ -10,6 +10,7 @@ public class PlayerMouvement : MonoBehaviour
     [SerializeField] Animator _animator;
     [SerializeField] CharacterController _controller;
     [SerializeField] Camera _camera;
+    [SerializeField] GameObject _axeWeapon;
     [SerializeField] int _isWalkingAnim;
     [SerializeField] float _speed;
     [SerializeField] float _gravity;
@@ -47,6 +48,7 @@ public class PlayerMouvement : MonoBehaviour
         if(_hasDrawWeapon == false)
         {
             _animator.SetTrigger("drawWeapon");
+            _axeWeapon.SetActive(true);
             Debug.Log("arme sortie !");
             _hasDrawWeapon = true;
             _isUsingWeapon = true;
@@ -57,8 +59,9 @@ public class PlayerMouvement : MonoBehaviour
             _animator.SetTrigger("sheathWeapon");
             Debug.Log("arme rangée");
             _hasDrawWeapon = false;
-            _isUsingWeapon = true;
+            _isUsingWeapon = false;
             StartCoroutine(NoWeapon());
+            
         }
     }
 
@@ -66,7 +69,6 @@ public class PlayerMouvement : MonoBehaviour
     {
         yield return new WaitForSeconds(1.2f);
         _isUsingWeapon = false;
-        //_canva.gameObject.SetActive(false);
         yield break;
     }
 
@@ -88,6 +90,7 @@ public class PlayerMouvement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _axeWeapon.SetActive(false);
         _isWalkingAnim = Animator.StringToHash("isWalking");
         _hasDrawWeapon = false;
         _isUsingWeapon = false;
@@ -115,6 +118,11 @@ public class PlayerMouvement : MonoBehaviour
             Movement();
         }*/
         
+    }
+
+    public void DestroyWeapon()
+    {
+        _axeWeapon.SetActive(false);
     }
 
     private void StartMovement(InputAction.CallbackContext obj)
