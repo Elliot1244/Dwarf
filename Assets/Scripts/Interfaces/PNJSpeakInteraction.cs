@@ -7,10 +7,29 @@ using UnityEngine.UI;
 
 public class PNJSpeakInteraction : MonoBehaviour
 {
+    public static PNJSpeakInteraction Instance { get; private set; }
+
     [SerializeField] TextMeshProUGUI _dialText;
+    [SerializeField] Image _dialContainer;
+    [SerializeField] Image _interractImage;
     [SerializeField] Canvas _canva;
     [SerializeField] Animator _animator;
     [SerializeField] int _animation;
+
+
+    public bool _canSpeak;
+
+    private void Awake()
+    {
+        //Vérifie qu'il n'y ait qu'une instance sinon destruction
+        if (Instance != null)
+        {
+            Debug.LogError("More than one instance" + transform + " - " + Instance);
+            DestroyImmediate(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
 
     private void Reset()
@@ -34,27 +53,38 @@ public class PNJSpeakInteraction : MonoBehaviour
                 bool _isWalking = _animator.GetBool(_animation);
                 _animator.SetBool(_animation, true);
                 _canva.gameObject.SetActive(true);
-                speakablePNJ.GetName();
-                _dialText.text = speakablePNJ.Speak();
-                StartCoroutine(DisableDialogText());
+                _interractImage.gameObject.SetActive(true);
+                /*_dialContainer.gameObject.SetActive(false);
+                _dialText.gameObject.SetActive(false);*/
+                _canSpeak = true;
+                if (PlayerMouvement.Instance._isSpeaking == true)
+                {
+                    Debug.Log("On peut parler");
+                    _dialContainer.gameObject.SetActive(true);
+                    _dialText.gameObject.SetActive(true);
+                    speakablePNJ.GetName();
+                    _dialText.text = speakablePNJ.Speak();
+                    PlayerMouvement.Instance._isSpeaking = false;
+                    //StartCoroutine(DisableDialogText());
+                }
             }
             else
             {
-                //_canva.gameObject.SetActive(false);
-                _animator.SetBool(_animation, false);
+                _canva.gameObject.SetActive(false);
+                PlayerMouvement.Instance._isSpeaking = false;
             }
         }
         else
         {
-            //_canva.gameObject.SetActive(false);
-            _animator.SetBool(_animation, false);
+            _canva.gameObject.SetActive(false);
+            PlayerMouvement.Instance._isSpeaking = false;
         }
     }
 
-    IEnumerator DisableDialogText()
+   /* IEnumerator DisableDialogText()
     {
         yield return new WaitForSeconds(3);
         _canva.gameObject.SetActive(false);
         yield break;
-    }
+    }*/
 }

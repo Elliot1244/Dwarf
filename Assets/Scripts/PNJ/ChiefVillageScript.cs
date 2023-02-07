@@ -8,14 +8,10 @@ public class ChiefVillageScript : MonoBehaviour, ISpeakable
 {
 
     public static ChiefVillageScript Instance { get; private set; }
-
-
-    /*[SerializeField] Canvas _canva;
-    [SerializeField] TextMeshProUGUI _dialText;*/
     
 
     bool _spoken = false;
-    public bool _getWeapon = false;
+    public bool _getWeapon;
 
 
     private void Awake()
@@ -28,6 +24,11 @@ public class ChiefVillageScript : MonoBehaviour, ISpeakable
             return;
         }
         Instance = this;
+    }
+
+    private void Start()
+    {
+        _getWeapon = false;
     }
 
 
@@ -45,6 +46,7 @@ public class ChiefVillageScript : MonoBehaviour, ISpeakable
         }
         else
         {
+            _getWeapon = true;
             return "Si tu souhaites repartir, récupère d'abord ton arme, je veux que tu puisses te défendre si tu croises à nouveau des bandits !";
         }
     }

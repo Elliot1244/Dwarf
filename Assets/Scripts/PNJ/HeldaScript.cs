@@ -8,10 +8,12 @@ public class HeldaScript : MonoBehaviour, ISpeakable
 {
 
     public static HeldaScript Instance { get; private set; }
-    /*[SerializeField] Canvas _canva;
-    [SerializeField] TextMeshProUGUI _dialText;*/
 
-   public bool _spoken = false;
+    [SerializeField] TextMeshProUGUI _dialText;
+    [SerializeField] Image _dialContainer;
+
+    public bool _spoken = false;
+    public bool _spokedTwice = false;
 
 
     private void Awake()
@@ -35,37 +37,28 @@ public class HeldaScript : MonoBehaviour, ISpeakable
     {
         if (_spoken == false)
         {
-            StartCoroutine(DisableDialogText());
+            _spoken = true;
             return "Ah, tu es réveillé Gromnir ! Malheureusement l'état de Dulmyr ne s'améliore pas... Il est entrain de se faire soigner à côté.";
+        }
+        else if(_spoken == true && _spokedTwice == false)
+        {
+            _spokedTwice = true;
+            return "Gromnir est avec le guérisseur du village dans la tente médicale à côté.";
         }
         else
         {
-            return "Gromnir est avec le guérisseur du village dans la tente médicale à côté.";
+            _dialContainer.gameObject.SetActive(false);
+            _dialText.gameObject.SetActive(false);
+            StartCoroutine(ResetDialog());
+            return "";
         }
     }
 
-    /*private void OnTriggerEnter(Collider other)
+    IEnumerator ResetDialog()
     {
-        if (other.gameObject.GetComponent<PlayerMouvement>() != null && _spoken == false)
-        {
-            _canva.gameObject.SetActive(true);
-            _dialText.text = "Ah, tu es réveillé Gromnir ! Malheureusement l'état de Dulmyr ne s'améliore pas... Il est entrain de se faire soigner à côté.";
-            StartCoroutine(DisableDialogText());
-            _spoken = true;
-        }
-        else
-        {
-            _canva.gameObject.SetActive(true);
-            _dialText.text = "Gromnir est avec le guérisseur du village dans la tente médicale à côté.";
-            StartCoroutine(DisableDialogText());
-        }
-    }*/
-
-    IEnumerator DisableDialogText()
-    {
-        yield return new WaitForSeconds(3);
-        _spoken = true;
-        //_canva.gameObject.SetActive(false);
+        yield return new WaitForEndOfFrame();
+        _spokedTwice = false;
+        _spoken = false;
         yield break;
     }
 }

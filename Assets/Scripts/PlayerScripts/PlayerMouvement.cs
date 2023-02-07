@@ -2,19 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using NodeCanvas.DialogueTrees;
+using TMPro;
+using UnityEngine.UI;
 public class PlayerMouvement : MonoBehaviour
 {
+    public static PlayerMouvement Instance { get; private set; }
+
     [SerializeField] InputActionReference _movement;
     [SerializeField] InputActionReference _sprint;
     [SerializeField] InputActionReference _draw;
+    [SerializeField] InputActionReference _dialogInterraction;
     [SerializeField] Animator _animator;
     [SerializeField] CharacterController _controller;
     [SerializeField] Camera _camera;
     [SerializeField] GameObject _axeWeapon;
+
+
+    [SerializeField] TextMeshProUGUI _dialText;
+
+
+
     [SerializeField] int _isWalkingAnim;
     [SerializeField] float _speed;
     [SerializeField] float _gravity;
+
+    //[SerializeField] DialogueTreeController dialogue;
     //[SerializeField] Transform _root;
+    [SerializeField] Canvas _dialog;
     private float _vSpeed = 0;
 
     Vector3 _currentMovement;
@@ -22,6 +37,7 @@ public class PlayerMouvement : MonoBehaviour
     bool _isRunning;
     bool _hasDrawWeapon;
     bool _isUsingWeapon;
+    public bool _isSpeaking;
     private void Reset()
     {
         _animator = GetComponent<Animator>();
@@ -29,6 +45,17 @@ public class PlayerMouvement : MonoBehaviour
     }
     private void Awake()
     {
+        //Vérifie qu'il n'y ait qu'une instance sinon destruction
+        if (Instance != null)
+        {
+            Debug.LogError("More than one instance" + transform + " - " + Instance);
+            DestroyImmediate(gameObject);
+            return;
+        }
+        Instance = this;
+
+
+
         //Mouvement
         _movement.action.performed += StartMovement;
         _movement.action.canceled += StopMovement;
@@ -40,8 +67,32 @@ public class PlayerMouvement : MonoBehaviour
 
         //Attaque
         _draw.action.performed += DrawStarted;
+
+        //Interraction/Dialogue
+        _dialogInterraction.action.performed += DialogStarted;
     }
 
+    private void DialogStarted(InputAction.CallbackContext obj)
+    {
+        if(PNJSpeakInteraction.Instance._canSpeak == true && _isSpeaking == false)
+        {
+            Debug.Log("Je peux parler");
+            _isSpeaking = true;
+            StartCoroutine(NotSpeaking());
+        }
+        else
+        {
+            Debug.Log("Il n'y a rien à faire");
+            _isSpeaking = false;
+        }
+    }
+
+    IEnumerator NotSpeaking()
+    {
+        yield return new WaitForEndOfFrame();
+        _isSpeaking = false;
+        yield break;
+    }
 
     private void DrawStarted(InputAction.CallbackContext obj)
     {
@@ -61,7 +112,8 @@ public class PlayerMouvement : MonoBehaviour
             _hasDrawWeapon = false;
             _isUsingWeapon = false;
             StartCoroutine(NoWeapon());
-            
+            //dialogue.StartDialogue();
+            //_dialog.gameObject.SetActive(true);
         }
     }
 
